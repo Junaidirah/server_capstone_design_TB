@@ -6,6 +6,11 @@ export class DataController {
 
   constructor() {
     this.dataService = new DataService();
+
+    // Bind semua method ke instance agar `this` tidak undefined
+    this.sendByUserId = this.sendByUserId.bind(this);
+    this.getByName = this.getByName.bind(this);
+    this.getAll = this.getAll.bind(this);
   }
 
   async sendByUserId(req: Request, res: Response): Promise<void> {
@@ -46,4 +51,3 @@ export class DataController {
     }
   }
 }
-
