@@ -159,6 +159,10 @@ const config = {
         "fromEnvVar": null,
         "value": "debian-openssl-3.0.x",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -176,6 +180,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -184,8 +189,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id         Int     @id @default(autoincrement())\n  id_nurse   String  @default(uuid()) @db.Uuid\n  image      String?\n  first_name String?\n  last_name  String?\n  phone      String?\n  email      String? @unique\n  gender     Boolean\n  agency     String?\n  job        String?\n  address    String?\n  password   String?\n  data       Data[]  @relation(\"UserData\")\n}\n\nmodel Data {\n  id      Int      @id @default(autoincrement())\n  user_id Int\n  time    DateTime\n  name    String?\n  status  String?\n  volume  Float?\n  user    User     @relation(fields: [user_id], references: [id], name: \"UserData\")\n}\n",
-  "inlineSchemaHash": "59293795e255d82573ebc6ccd25cc1aa8b854782e9c161e228b3caf6a7dc22c5",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id         Int     @id @default(autoincrement())\n  id_nurse   String  @default(uuid()) @db.Uuid\n  image      String?\n  first_name String?\n  last_name  String?\n  phone      String?\n  email      String? @unique\n  gender     Boolean\n  agency     String?\n  job        String?\n  address    String?\n  password   String?\n  data       Data[]  @relation(\"UserData\")\n}\n\nmodel Data {\n  id      Int      @id @default(autoincrement())\n  user_id Int\n  time    DateTime\n  name    String?\n  status  String?\n  volume  Float?\n  user    User     @relation(fields: [user_id], references: [id], name: \"UserData\")\n}\n",
+  "inlineSchemaHash": "d73e1ebdc3bb5c9345bad02185fdeeec1f343cd90031897fd1f4b8ee74d93eaa",
   "copyEngine": true
 }
 
@@ -226,6 +231,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
 path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
