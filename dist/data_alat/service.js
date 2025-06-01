@@ -17,35 +17,46 @@ class DataService {
     }
     sendByUserId(user_id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c;
             if (!user_id || user_id <= 0) {
                 throw new Error("User ID tidak valid");
             }
             if (!data.time) {
                 throw new Error("Field time wajib diisi");
             }
+            // Destructuring data input
+            const { time: rawTime, name, status, volume } = data;
+            // Parsing time
             let time;
-            if (typeof data.time === "string") {
-                const parsed = new Date(data.time);
+            if (typeof rawTime === "string") {
+                const parsed = new Date(rawTime);
                 if (isNaN(parsed.getTime())) {
                     throw new Error("Format time tidak valid");
                 }
                 time = parsed;
             }
-            else if (data.time instanceof Date) {
-                time = data.time;
+            else if (rawTime instanceof Date) {
+                time = rawTime;
             }
             else {
                 throw new Error("Field time harus berupa Date atau string ISO");
             }
-            if (data.volume !== undefined && typeof data.volume !== "number") {
-                throw new Error("Field volume harus berupa number");
+            // Validasi volume
+            if (volume !== undefined) {
+                if (typeof volume !== "number") {
+                    throw new Error("Field volume harus berupa number");
+                }
+                if (volume < 0) {
+                    throw new Error("Field volume tidak boleh negatif");
+                }
             }
+            // Validasi name dan status (optional)
+            const cleanName = name && name.trim() !== "" ? name : null;
+            const cleanStatus = status && status.trim() !== "" ? status : null;
             const savedData = yield this.dataRepo.sendByUserId(user_id, {
                 time,
-                name: (_a = data.name) !== null && _a !== void 0 ? _a : null,
-                status: (_b = data.status) !== null && _b !== void 0 ? _b : null,
-                volume: (_c = data.volume) !== null && _c !== void 0 ? _c : null,
+                name: cleanName,
+                status: cleanStatus,
+                volume: volume !== null && volume !== void 0 ? volume : null,
             });
             return savedData;
         });

@@ -14,6 +14,10 @@ const service_1 = require("./service");
 class DataController {
     constructor() {
         this.dataService = new service_1.DataService();
+        // Bind semua method ke instance agar `this` tidak undefined
+        this.sendByUserId = this.sendByUserId.bind(this);
+        this.getByName = this.getByName.bind(this);
+        this.getAll = this.getAll.bind(this);
     }
     sendByUserId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
