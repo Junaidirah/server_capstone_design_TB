@@ -2,10 +2,10 @@ import { DataRepository } from "./repository";
 import { Data } from "@prisma/client";
 
 interface SendDataInput {
-    time: Date | string;
-    name?: string;
-    status?: string;
-    volume?: number;
+  time: Date | string;
+  name?: string;
+  status?: string;
+  location?: string;
 }
 
 export class DataService {
@@ -24,7 +24,7 @@ export class DataService {
     }
 
     // Destructuring data input
-    const { time: rawTime, name, status, volume } = data;
+    const { time: rawTime, name, status, location } = data;
 
     // Parsing time
     let time: Date;
@@ -40,25 +40,16 @@ export class DataService {
       throw new Error("Field time harus berupa Date atau string ISO");
     }
 
-    // Validasi volume
-    if (volume !== undefined) {
-      if (typeof volume !== "number") {
-        throw new Error("Field volume harus berupa number");
-      }
-      if (volume < 0) {
-        throw new Error("Field volume tidak boleh negatif");
-      }
-    }
-
-    // Validasi name dan status (optional)
-    const cleanName = name && name.trim() !== "" ? name : null;
-    const cleanStatus = status && status.trim() !== "" ? status : null;
+    // Validasi name, status, dan location (optional)
+    const cleanName = name && name.trim() !== "" ? name.trim() : null;
+    const cleanStatus = status && status.trim() !== "" ? status.trim() : null;
+    const cleanLocation = location && location.trim() !== "" ? location.trim() : null;
 
     const savedData = await this.dataRepo.sendByUserId(user_id, {
       time,
       name: cleanName,
       status: cleanStatus,
-      volume: volume ?? null,
+      location: cleanLocation,
     });
 
     return savedData;
@@ -66,7 +57,7 @@ export class DataService {
 
   async getByName(name: string): Promise<Data[]> {
     if (!name || name.trim() === "") throw new Error("Parameter name wajib diisi");
-    return await this.dataRepo.getByName(name);
+    return await this.dataRepo.getByName(name.trim());
   }
 
   async getAll(): Promise<Data[]> {

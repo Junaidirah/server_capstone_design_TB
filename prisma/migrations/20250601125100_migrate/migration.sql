@@ -23,7 +23,7 @@ CREATE TABLE "Data" (
     "time" TIMESTAMP(3) NOT NULL,
     "name" TEXT,
     "status" TEXT,
-    "volume" DOUBLE PRECISION,
+    "location" TEXT,
 
     CONSTRAINT "Data_pkey" PRIMARY KEY ("id")
 );

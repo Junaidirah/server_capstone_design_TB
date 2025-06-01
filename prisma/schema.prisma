@@ -35,6 +35,6 @@ model Data {
   time     DateTime
   name     String?
   status   String?
-  volume   Float?
+  location String?
   user     User     @relation(fields: [user_id], references: [id], name: "UserData")
 }

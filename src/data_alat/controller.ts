@@ -20,7 +20,9 @@ export class DataController {
         res.status(400).json({ message: "User ID tidak valid" });
         return;
       }
+
       const data = req.body;
+      // Karena service sudah validasi data, langsung panggil
       const savedData = await this.dataService.sendByUserId(user_id, data);
       res.status(201).json(savedData);
     } catch (error: any) {
@@ -31,11 +33,11 @@ export class DataController {
   async getByName(req: Request, res: Response): Promise<void> {
     try {
       const name = req.params.name;
-      if (!name) {
+      if (!name || name.trim() === "") {
         res.status(400).json({ message: "Parameter nama wajib diisi" });
         return;
       }
-      const dataList = await this.dataService.getByName(name);
+      const dataList = await this.dataService.getByName(name.trim());
       res.status(200).json(dataList);
     } catch (error: any) {
       res.status(400).json({ message: error.message || "Gagal mengambil data berdasarkan nama" });
