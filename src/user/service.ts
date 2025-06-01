@@ -36,16 +36,21 @@ export class UserService {
     return { user: userWithoutPassword, message: "User berhasil didaftarkan" };
   }
 
-  async loginUser(email: string, password: string): Promise<{ token: string; message: string }> {
-    const user = await this.userRepo.getUserByEmail(email);
-    if (!user) throw new Error("Email tidak ditemukan");
+async loginUser(email: string, password: string): Promise<{ token: string; message: string }> {
+  const user = await this.userRepo.getUserByEmail(email);
+  if (!user) throw new Error("Email tidak ditemukan");
 
-    const match = await bcrypt.compare(password, user.password ?? "");
-    if (!match) throw new Error("Password salah");
+  console.log("user.password hash:", user.password);
+  console.log("password input:", password);
 
-    const token = jwt.sign({ userId: user.id, email: user.email }, SECRET, { expiresIn: "1d" });
-    return { token, message: "Login berhasil" };
-  }
+  const match = await bcrypt.compare(password, user.password ?? "");
+  console.log("match:", match);
+
+  if (!match) throw new Error("Password salah");
+
+  const token = jwt.sign({ userId: user.id, email: user.email }, SECRET, { expiresIn: "1d" });
+  return { token, message: "Login berhasil" };
+}
 
   async changePassword(userId: number, oldPassword: string, newPassword: string): Promise<string> {
     const user = await this.userRepo.getUserById(userId);
