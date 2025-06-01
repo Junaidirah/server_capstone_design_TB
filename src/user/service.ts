@@ -40,8 +40,8 @@ async loginUser(email: string, password: string): Promise<{ token: string; messa
   const user = await this.userRepo.getUserByEmail(email);
   if (!user) throw new Error("Email tidak ditemukan");
 
-  console.log("user.password hash:", user.password);
-  console.log("password input:", password);
+  // console.log("user.password hash:", user.password);
+  // console.log("password input:", password);
 
   const match = await bcrypt.compare(password, user.password ?? "");
   console.log("match:", match);
