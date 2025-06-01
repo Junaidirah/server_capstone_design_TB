@@ -1,5 +1,5 @@
 import prisma from "../config/db";
-import { User } from "../generated/prisma";
+import { User } from "@prisma/client";
 import bcrypt from 'bcryptjs';
 
 export class UserRepository {

@@ -1,5 +1,5 @@
 import prisma from "../config/db";
-import { Data } from "../generated/prisma";
+import { Data } from "@prisma/client";
 
 export class DataRepository {
 	async sendByUserId(user_id: number, data: Omit<Data, "id" | "user_id">): Promise<Data> {

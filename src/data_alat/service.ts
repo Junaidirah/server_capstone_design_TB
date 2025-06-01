@@ -1,5 +1,5 @@
 import { DataRepository } from "./repository";
-import { Data } from "../generated/prisma";
+import { Data } from "@prisma/client";
 
 interface SendDataInput {
     time: Date | string;

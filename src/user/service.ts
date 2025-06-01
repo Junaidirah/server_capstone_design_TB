@@ -1,6 +1,6 @@
 // IMPORT DEPEDENCY
 import { UserRepository } from "./reposiroty_data_alat";
-import { User } from "../generated/prisma";
+import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const SECRET = process.env.JWT_SECRET || "";
