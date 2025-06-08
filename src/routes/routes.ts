@@ -16,6 +16,7 @@ router.post("/login", userCtrl.loginUser);
 router.post("/logout", authenticate, userCtrl.logoutUser);
 router.post("/change-password", authenticate, userCtrl.changePassword);
 router.put("/update", authenticate, userCtrl.updateUser);
+router.get("/profile",authenticate, userCtrl.getUserProfileByEmail)
 // ROUTE ALAT
 router.post("/data/user/:userId", dataCtrl.sendByUserId);
 router.get("/data/name/:name", dataCtrl.getByName);

@@ -56,4 +56,21 @@ async createUser(data: {
             data: { password: hashedPassword }
         });
     }
+    async getUserProfile(email: string): Promise<User | null> {
+    return prisma.user.findUnique({
+        where: { email },
+        select: {
+            email: true,
+            first_name: true,
+            last_name: true,
+            phone: true,
+            image: true,
+            agency: true,
+            job: true,
+            address: true,
+            gender: true,
+            // Optionally, add any other fields you want to retrieve for the profile
+        }
+    });
+}
 }

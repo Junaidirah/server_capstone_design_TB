@@ -72,4 +72,7 @@ async loginUser(email: string, password: string): Promise<{ token: string; messa
     const { password, ...userWithoutPassword } = updatedUser;
     return userWithoutPassword;
   }
+  async getUserProfileByEmail(email: string): Promise<User | null> {
+    return this.userRepo.getUserProfile(email);  // Fix the reference to `userRepo`
+  }
 }
